@@ -1,0 +1,3 @@
+QuietStack | Senior Backend Engineer | Berlin, Germany | ONSITE or REMOTE (EU) | Full-time
+We build observability for small teams. Stack: Go, Postgres, Kafka, Kubernetes.
+No recruiters please. Email hiring (at) quietstack.dev with a link to something you built. Logos: logo@2x.png

@@ -1,0 +1,32 @@
+{
+  "name": "cold-email",
+  "owner": {
+    "name": "@compiling.me_",
+    "url": "https://www.instagram.com/compiling.me_/"
+  },
+  "metadata": {
+    "description": "Free, open-source job-outreach skill: free job sources, sourced contacts, Gmail drafts only."
+  },
+  "plugins": [
+    {
+      "name": "cold-email",
+      "source": "./",
+      "description": "Find matching jobs (Arbeitnow, Bundesagentur, Hacker News, public ATS feeds, public LinkedIn posts via web search), find a sourced contact email, and draft personal cold emails in Gmail. Never sends.",
+      "version": "1.0.0",
+      "author": {
+        "name": "@compiling.me_",
+        "url": "https://www.instagram.com/compiling.me_/"
+      },
+      "license": "MIT",
+      "keywords": [
+        "job-search",
+        "cold-email",
+        "gmail",
+        "germany",
+        "career"
+      ],
+      "category": "productivity",
+      "homepage": "https://github.com/nithval/cold-email-skill"
+    }
+  ]
+}
