@@ -16,6 +16,27 @@ It also skips people you already emailed, notices replies, drafts **one** follow
 The email style comes from real cold emails that got founders, CTOs and a Head of Innovation to reply during a job hunt in Germany
 (`skills/cold-email/references/style.md`).
 
+## What a run looks like
+
+Real output from a dry run on 31 Oct 2026. The jobs and companies are real; the CV is a fictional example profile.
+Contact addresses and people's names are masked here.
+
+**1. It pulls fresh jobs from free sources and scores them against your CV**
+
+![find: 472 jobs from free sources, 39 good matches](assets/find.png)
+
+**2. It keeps the matches that have a real contact, and shows where each email came from**
+
+![shortlist: match score, matched skills, and the source of every email](assets/shortlist.png)
+
+**3. It writes a short personal draft and checks it against the guide**
+
+![a 109-word draft that passes the linter](assets/draft.png)
+
+**Check your setup any time**
+
+![selftest: every source and parser passes](assets/selftest.png)
+
 ---
 
 ## Install
