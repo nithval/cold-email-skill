@@ -107,4 +107,5 @@ so you review them whenever you like.
 If this helped you land a job, buy me a coffee ☕ (link coming soon)<!-- DONATION_LINK -->
 Or pay it forward: help the next person with their first cold email.
 
-Made by [@compiling.me_](https://www.instagram.com/compiling.me_/) · MIT licence
+MIT licence
+
