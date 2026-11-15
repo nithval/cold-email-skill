@@ -95,7 +95,7 @@ def t_hn():
 def t_ats():
     import sources
     out = []
-    for kind, slug in (("greenhouse", "getyourguide"), ("ashby", "moss")):
+    for kind, slug in (("greenhouse", "celonis"), ("ashby", "moss")):
         out.append(f"{kind}:{slug} {len(sources.ats_jobs(kind, slug, []))}")
     return ", ".join(out)
 

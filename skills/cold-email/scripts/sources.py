@@ -265,7 +265,8 @@ def company_contacts(site: str, max_pages: int = 5, delay: float = 0.3) -> dict:
     try:  # follow the site's own Impressum/contact links first
         home = http_get(base + "/", timeout=10)
         for href in re.findall(r'href=["\']([^"\'#]+)["\']', home):
-            if re.search(r"impressum|imprint|legal-notice|kontakt|contact|team", href, re.I) and "mailto:" not in href:
+            if (re.search(r"impressum|imprint|legal-notice|kontakt|contact|team", href, re.I) and "mailto:" not in href
+                    and not re.search(r"generator|/tools?/|template|vorlage|muster|/blog/|/news/|/press|/magazin|/stories/", href, re.I)):  # tool pages, not their own Impressum
                 linked.append(urllib.parse.urljoin(base + "/", href))
         _collect(result, seen_emails, base + "/", home)
     except Exception:
@@ -293,7 +294,9 @@ def _collect(result: dict, seen: set, url: str, page: str) -> None:
     result["pages_checked"].append(url)
     text = html_to_text(page)
     imp = parse_impressum(text)
-    for name in imp.managing_directors:
+    # Directors only from legal pages: a blog post or careers page that says "CEO" is not an Impressum.
+    legal_page = url.rstrip("/").count("/") <= 2 or re.search(r"impressum|imprint|legal|kontakt|contact|about|ueber-uns", url, re.I)
+    for name in (imp.managing_directors if legal_page else []):
         if name not in [m["name"] for m in result["managing_directors"]]:
             result["managing_directors"].append({"name": name, "source_url": url})
     for e in _emails_from(text, url):

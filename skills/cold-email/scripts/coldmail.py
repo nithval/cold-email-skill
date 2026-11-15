@@ -74,9 +74,12 @@ BLOCKED_LOCAL = {
     "noreply", "no-reply", "donotreply", "do-not-reply", "datenschutz", "privacy", "dpo",
     "dataprotection", "data-protection", "abuse", "postmaster", "webmaster", "hostmaster",
     "unsubscribe", "bounce", "mailer-daemon", "support", "billing", "invoice", "rechnung",
-    "press", "presse", "media", "legal", "compliance", "security",
+    "press", "presse", "media", "legal", "compliance", "security", "ir", "investor", "investors",
+    "investor-relations", "jugendschutz", "dsa", "dsa-authorities", "tco-order", "whistleblower", "hinweisgeber",
 }
-BLOCKED_DOMAINS = {"example.com", "example.org", "domain.com", "email.com", "sentry.io", "wixpress.com"}
+BLOCKED_DOMAINS = {"example.com", "example.org", "example.de", "domain.com", "domain.de", "email.com", "sentry.io",
+                   "wixpress.com", "muster.de", "mustermann.de", "musterfirma.de", "beispiel.de", "ihre-domain.de",
+                   "ihrefirma.de", "firma.de"}  # placeholder addresses from templates and Impressum generators
 _ASSET_TLDS = {"png", "jpg", "jpeg", "gif", "svg", "webp", "css", "js"}
 
 
@@ -125,14 +128,15 @@ KIND_RANK = {"person": 0, "jobs": 1, "generic": 2}
 
 # ---------------------------------------------------------------- Impressum
 
-_NAME = r"(?:Dr\.\s*|Prof\.\s*)*[A-ZÄÖÜ][a-zäöüßéèáçñ'-]+(?:\s+(?:von|van|de|der|zu)\s+|\s+|-)[A-ZÄÖÜ][a-zäöüßéèáçñ'-]+(?:-[A-ZÄÖÜ][a-zäöüß'-]+)?"
+_PART = r"[A-ZÄÖÜ][a-zäöüßéèáçñ']+(?:-[A-ZÄÖÜ][a-zäöüßéèáçñ']+)*"  # Petit-Perrin, never a dangling "Petit-"
+_NAME = rf"(?:Dr\.\s*|Prof\.\s*)*{_PART}(?:\s+(?:von|van|de|der|zu)\s+|[ \t]+){_PART}"
 _MD_LABEL = re.compile(
     r"(?:Geschäftsführ(?:er|erin|ung|ende(?:r)?)|Vertretungsberechtigte(?:r)?\s+Geschäftsführer(?:in)?|"
     r"Vertreten\s+durch(?:\s+(?:den|die)\s+Geschäftsführer(?:in)?)?|Managing\s+Directors?|"
     r"Represented\s+by(?:\s+the\s+Managing\s+Directors?)?|CEO|Vorstand)\s*[:\-–]?\s*",
     re.I,
 )
-_STOP = re.compile(r"\b(Registergericht|Amtsgericht|Handelsregister|HRB|USt|Umsatzsteuer|Sitz|Register|Tel|Telefon|Phone|E-?Mail|Kontakt|Contact|Verantwortlich|VAT|Court|Commercial|Registered|Registration|Address|Anschrift|Straße|Strasse|Street|Germany|Deutschland)\b", re.I)
+_STOP = re.compile(r"\b(Registergericht|Amtsgericht|Handelsregister|HRB|USt|Umsatzsteuer|Sitz|Register|Tel|Telefon|Phone|E-?Mail|Kontakt|Contact|Verantwortlich|VAT|Court|Commercial|Registered|Registration|Address|Anschrift|Straße|Strasse|Street|Germany|Deutschland|Board|Aufsichtsrat|Verwaltungsrat|Supervisory|Beirat|Chairman|Vorsitz\w*|Copyright|Datenschutz|Privacy|Haftung)\b", re.I)
 
 
 # Words that look like "Firstname Lastname" in page text but are not people.
@@ -143,7 +147,8 @@ _NOT_NAME_WORDS = {
     "datenschutz", "geschäftsführer", "geschäftsführung", "vorstand", "aufsichtsrat", "vorsitzender", "angaben",
     "gemäß", "haftung", "inhalte", "links", "urheberrecht", "verantwortlich", "online", "digital", "solutions",
     "technologies", "software", "systems", "labs", "studio", "gmbh", "holding", "partner", "partners", "chief",
-    "executive", "officer", "founder", "founders", "berlin", "münchen", "munich", "hamburg", "köln", "frankfurt",
+    "executive", "officer", "founder", "founders", "copyright", "you", "your", "ihres", "ihre", "unternehmens", "inside",
+    "mustermann", "musterfrau", "muster", "beispiel", "example", "sample", "berlin", "münchen", "munich", "hamburg", "köln", "frankfurt",
 }
 
 

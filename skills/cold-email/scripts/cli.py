@@ -76,6 +76,17 @@ def cv_text(path: Path) -> str:
     return path.read_text(errors="replace")
 
 
+def _apply_settings(prof: dict, a) -> None:
+    for key in ("roles", "cities", "seniority", "watch"):
+        val = getattr(a, key, None)
+        if val is not None:
+            prof[key] = [v.strip() for v in val.split(",") if v.strip()]
+    for key in ("sender_name", "project_line", "project_link", "links", "min_score", "max_age_days", "signature"):
+        val = getattr(a, key, None)
+        if val is not None:
+            prof[key] = float(val) if key in ("min_score", "max_age_days") else val
+
+
 def cmd_profile(a) -> None:
     HOME.mkdir(parents=True, exist_ok=True)
     if a.action == "init":
@@ -86,19 +97,13 @@ def cmd_profile(a) -> None:
         prof = json.loads(PROFILE.read_text()) if PROFILE.exists() else {}
         prof.update({"cv_file": str(Path(a.cv).expanduser()), "cv_terms": weights,
                      "cv_sections_found": [k for k, v in secs.items() if v.strip()], "updated": today()})
+        _apply_settings(prof, a)  # init also takes --roles, --cities, ... so nothing is silently dropped
         save_json(PROFILE, prof)
         top = sorted(weights.items(), key=lambda kv: (-kv[1], kv[0]))[:20]
         print(json.dumps({"sections": prof["cv_sections_found"], "top_terms": top, "profile": str(PROFILE)}, indent=2))
     elif a.action == "set":
         prof = json.loads(PROFILE.read_text()) if PROFILE.exists() else {}
-        for key in ("roles", "cities", "seniority", "watch"):
-            val = getattr(a, key)
-            if val is not None:
-                prof[key] = [v.strip() for v in val.split(",") if v.strip()]
-        for key in ("sender_name", "project_line", "project_link", "links", "min_score", "max_age_days", "signature"):
-            val = getattr(a, key)
-            if val is not None:
-                prof[key] = float(val) if key in ("min_score", "max_age_days") else val
+        _apply_settings(prof, a)
         prof["updated"] = today()
         save_json(PROFILE, prof)
         print(json.dumps({k: v for k, v in prof.items() if k != "cv_terms"}, indent=2, ensure_ascii=False))

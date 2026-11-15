@@ -80,8 +80,22 @@ class ImpressumParsing(unittest.TestCase):
         self.assertEqual(imp.emails, ["hello@examplelabs.ai"])
 
     def test_vertreten_durch(self):
-        imp = cm.parse_impressum("Muster UG (haftungsbeschränkt)\nVertreten durch: Max Mustermann\nTelefon: 030 1234")
-        self.assertEqual(imp.managing_directors, ["Max Mustermann"])
+        imp = cm.parse_impressum("Muster UG (haftungsbeschränkt)\nVertreten durch: Jana Krüger\nTelefon: 030 1234")
+        self.assertEqual(imp.managing_directors, ["Jana Krüger"])
+
+
+    def test_board_and_footer_are_not_directors(self):
+        # Shape of a real English imprint (15 Nov 2026): hyphenated surname, then the board and the copyright footer.
+        text = ("Managing Director\nGuillaume Petit-Perrin\n Administrative Board\nMichael Wax (Chairman)\n Copyright \n"
+                "You may print one or more of the pages of this website. Inside Forto. YouTube Spotify.")
+        self.assertEqual(cm.parse_impressum(text).managing_directors, ["Guillaume Petit-Perrin"])
+
+    def test_generator_placeholders_are_dropped(self):
+        # An Impressum generator page shows sample data; none of it is a real contact.
+        text = "Geschäftsführer: Max Mustermann\nE-Mail: info@muster.de\nkontakt@beispiel.de"
+        imp = cm.parse_impressum(text)
+        self.assertEqual(imp.managing_directors, [])
+        self.assertEqual(imp.emails, [])
 
 
 class Matching(unittest.TestCase):
